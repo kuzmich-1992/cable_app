@@ -3,6 +3,7 @@ class RoomsController < ApplicationController
   # @rooms = all rooms
   # @room = current room when applicable
   before_action :load_entities
+  before_action :correct_user,   only: :destroy
 
   def index
     @rooms = Room.all
@@ -13,7 +14,7 @@ class RoomsController < ApplicationController
   end
 
   def create
-    @room = Room.new permitted_parameters
+    @room = current_user.rooms.build(permitted_parameters)
 
     if @room.save
       flash[:success] = "Room #{@room.name} was created successfully"
@@ -40,6 +41,17 @@ class RoomsController < ApplicationController
     end
   end
 
+  def destroy
+    if @room.destroy
+      respond_to do |format|
+        format.html { redirect_to rooms_url, notice: 'room was destroyed.' }
+        format.json { head :no_content }
+      end
+    else
+      render 'deletion error'
+    end
+  end
+
   protected
 
   def load_entities
@@ -48,6 +60,11 @@ class RoomsController < ApplicationController
   end
 
   def permitted_parameters
-    params.require(:room).permit(:name)
+    params.require(:room).permit(:name,:user_id)
+  end
+
+  def correct_user
+    @room = current_user.rooms.find_by(id: params[:id])
+    redirect_to root_url if @room.nil?
   end
 end
