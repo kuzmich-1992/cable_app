@@ -1,0 +1,16 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+  username: kuzmich
+  password: 1234567890
+
+development:
+  <<: *default
+  host: localhost
+  database: cable_chat_app
+
+test:
+  <<: *default
+  host: localhost
+  database: cable_app_test
