@@ -15,8 +15,8 @@ class RoomsController < ApplicationController
 
   def create
     @room = current_user.rooms.build(permitted_parameters)
-
     if @room.save
+      current_user.room_users.create(room_id: @room.id, role: 'admin')
       flash[:success] = "Room #{@room.name} was created successfully"
       redirect_to rooms_path
     else
@@ -42,14 +42,10 @@ class RoomsController < ApplicationController
   end
 
   def destroy
-    if @room.destroy
-      respond_to do |format|
-        format.html { redirect_to rooms_url, notice: 'room was destroyed.' }
-        format.json { head :no_content }
-      end
-    else
-      render 'deletion error'
-    end
+    @room = Room.find(params[:id])
+    # @room.room_users.all.delete_all
+    @room.destroy
+    redirect_to rooms_path
   end
 
   protected

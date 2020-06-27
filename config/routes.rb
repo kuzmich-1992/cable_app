@@ -4,5 +4,10 @@ Rails.application.routes.draw do
   root controller: :rooms, action: :index
 
   resources :room_messages
-  resources :rooms
+  resources :rooms 
+  resources :room_users, only: [:new] do
+    collection do
+      post :bulk_create
+    end
+  end   
 end

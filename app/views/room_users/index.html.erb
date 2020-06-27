@@ -1,0 +1,9 @@
+<h1>Add users to chat</h1>
+<%  @users.each  do |user|  %>
+  <%= user.username %>
+  <!-- <input type="checkbox" name="user_id" id="user_"> -->
+  <%= check_box 'user_id', user.id %>
+  <br>
+<% end %>
+<input type='hidden' id='chat_id' value="<%= params[:chat_id] %>">
+<p><input type="submit" value="Add" id="add_users"></p>

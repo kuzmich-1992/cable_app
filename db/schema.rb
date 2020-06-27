@@ -10,10 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_26_200944) do
+ActiveRecord::Schema.define(version: 2020_06_27_222004) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "memberships", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "room_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "online", default: false
+    t.index ["room_id"], name: "index_memberships_on_room_id"
+    t.index ["user_id"], name: "index_memberships_on_user_id"
+  end
 
   create_table "room_messages", force: :cascade do |t|
     t.bigint "room_id"
@@ -23,6 +33,16 @@ ActiveRecord::Schema.define(version: 2020_06_26_200944) do
     t.datetime "updated_at", null: false
     t.index ["room_id"], name: "index_room_messages_on_room_id"
     t.index ["user_id"], name: "index_room_messages_on_user_id"
+  end
+
+  create_table "room_users", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "room_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "role"
+    t.index ["room_id"], name: "index_room_users_on_room_id"
+    t.index ["user_id"], name: "index_room_users_on_user_id"
   end
 
   create_table "rooms", force: :cascade do |t|
@@ -49,6 +69,10 @@ ActiveRecord::Schema.define(version: 2020_06_26_200944) do
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
+  add_foreign_key "room_users", "rooms"
+  add_foreign_key "room_users", "users"
   add_foreign_key "room_messages", "rooms"
   add_foreign_key "room_messages", "users"
+  add_foreign_key "room_users", "rooms"
+  add_foreign_key "room_users", "users"
 end

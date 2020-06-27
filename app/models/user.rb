@@ -7,6 +7,8 @@ class User < ApplicationRecord
 
   has_many :rooms, dependent: :destroy
 
+  has_many :room_users
+
   has_many :room_messages, dependent: :destroy
   
   devise :database_authenticatable, :registerable,
