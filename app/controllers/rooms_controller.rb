@@ -4,7 +4,7 @@ class RoomsController < ApplicationController
   # @room = current room when applicable
   before_action :load_entities
   before_action :correct_user,   only: :destroy
-
+  
   def index
     @rooms = Room.all
   end
@@ -25,6 +25,8 @@ class RoomsController < ApplicationController
   end
 
   def show
+    @room = Room.find(params[:id])
+    redirect_with_flash unless member_of_room
     @room_message = RoomMessage.new room: @room
     @room_messages = @room.room_messages.includes(:user)
   end
@@ -52,15 +54,15 @@ class RoomsController < ApplicationController
 
   def load_entities
     @rooms = Room.all
-    @room = Room.find(params[:id]) if params[:id]
+    @room = Room.find(params[:room_id]) if params[:room_id]
   end
 
   def permitted_parameters
-    params.require(:room).permit(:name,:user_id)
+    params.require(:room).permit(:name,:user_id,:room_id)
   end
 
   def correct_user
     @room = current_user.rooms.find_by(id: params[:id])
-    redirect_to root_url if @room.nil?
+    redirect_to room_url if @room.nil?
   end
 end

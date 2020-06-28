@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
-  helper_method :current_user
+  helper_method :current_user, :member_of_room, :redirect_with_flash
 
   def after_sign_in_path_for(_resource)
     rooms_path
@@ -16,8 +16,13 @@ class ApplicationController < ActionController::Base
     user_session_path
   end
 
-  def member_of_group
+  def member_of_room
     !!@room.room_users.find_by(user_id: current_user.id)
+  end
+
+  def redirect_with_flash
+    flash[:notice] = "You are not a member of that room"
+    redirect_to rooms_path
   end
 
   protected
