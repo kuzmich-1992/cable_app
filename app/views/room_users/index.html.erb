@@ -1,3 +1,12 @@
+
+
+<h4>current users</h4>
+<ul id="member-list">
+  <% @room_users.each do |member| %>
+    <li><%= member.name %></li>
+  <% end %>
+</ul>
+
 <h1>Add users to chat</h1>
 <%  @users.each  do |user|  %>
   <%= user.username %>
@@ -7,3 +16,4 @@
 <% end %>
 <input type='hidden' id='chat_id' value="<%= params[:chat_id] %>">
 <p><input type="submit" value="Add" id="add_users"></p>
+</ul>

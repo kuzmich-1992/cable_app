@@ -43,7 +43,7 @@ class RoomsController < ApplicationController
 
   def destroy
     @room = Room.find(params[:id])
-    # @room.room_users.all.delete_all
+    @room.room_users.all.delete_all
     @room.destroy
     redirect_to rooms_path
   end
