@@ -5,9 +5,9 @@ class User < ApplicationRecord
   
   after_initialize :set_default_role, :if => :new_record? 
 
-  has_many :rooms, through: :room_users ,dependent: :destroy
-
   has_many :room_users
+
+  has_many :rooms, through: :room_users ,dependent: :destroy
 
   has_many :room_messages, dependent: :destroy
   

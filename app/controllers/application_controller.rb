@@ -16,7 +16,7 @@ class ApplicationController < ActionController::Base
     user_session_path
   end
 
-  def member_of_group
+  def member_of_room
     !!@room.room_users.find_by(user_id: current_user.id)
   end
 

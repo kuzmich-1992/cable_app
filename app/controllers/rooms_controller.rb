@@ -25,6 +25,8 @@ class RoomsController < ApplicationController
   end
 
   def show
+    @room = Room.find(params[:id])
+    redirect_to rooms_path unless member_of_room
     @room_message = RoomMessage.new room: @room
     @room_messages = @room.room_messages.includes(:user)
   end
@@ -61,6 +63,6 @@ class RoomsController < ApplicationController
 
   def correct_user
     @room = current_user.rooms.find_by(id: params[:id])
-    redirect_to root_url if @room.nil?
+    redirect_to rooms_path if @room.nil?
   end
 end

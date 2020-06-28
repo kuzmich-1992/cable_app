@@ -10,9 +10,6 @@
       <%= link_to room.name, room_path(room), class: 'nav-link room-nav-link' %>
       <%= link_to "delete", room, method: :delete,
                                        data: { confirm: "You sure?" } %>
-      <%= link_to room_users_path(@room) do %>
-      invite people
-      <% end %>
     <% end %>
   </nav>
 <% else %>
