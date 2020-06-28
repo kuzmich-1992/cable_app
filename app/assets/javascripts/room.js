@@ -4,23 +4,22 @@ $(function() {
   });
 });
 
-
-$(document).on(function() {
-
-  var ids = [];
-
-  $("#add_users").on('click', function(){
-  	$(':checkbox:checked').map(function(key, value) { ids.push(value.id.split("_")[2]) })
-  	$.ajax({
-  	  url: "/room_users/bulk_create",
-  	  type: 'POST',
-  	  data: {
-  	  	      'user_ids': ids,
-  	          'room_id': $('#room_id')[0].value,
-  	        },
-  	  success: function(){
-  	  	alert('Users successfully added!');
-  	  }
-  	});
+$( document ).ready(function() {
+  $('#add-users input').on ('click', function(){
+    var userId = $(this).attr("id").split("-")[0];
+    var data = {user_id: userId};
+    $.ajax({
+      url: this.action,
+      data: data,
+      method: 'post'
+    }).done(function(res){
+      var userData = JSON.parse(res);
+      $('#' + userData.id + "-add-member").parent().remove();
+      $('#member-list').append(memberAppendBuilder(userData));
+    });
   });
 });
+
+var memberAppendBuilder = function(userData){
+   return "<li>" + userData.username + "</li>";
+};
