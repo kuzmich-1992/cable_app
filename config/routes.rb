@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
   devise_for :users
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  resources :users
+  resources :room_messages
+  resources :rooms
+  resources :room_users do
+  	post :create
+  end
 end
