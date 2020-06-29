@@ -4,22 +4,30 @@ $(function() {
   });
 });
 
-$( document ).ready(function() {
-  $('#add-users input').on ('click', function(){
-    var userId = $(this).attr("id").split("-")[0];
-    var data = {user_id: userId};
+$(document).on(function() {
+
+  var ids = [];
+
+  $("#add_users").on('click', function(){
+    $(':checkbox:checked').map(function(key, value) { ids.push(value.id.split("_")[2]) })
     $.ajax({
-      url: this.action,
-      data: data,
-      method: 'post'
-    }).done(function(res){
+      url: "/room_users/create",
+      type: 'PUT',
+      data: {
+              'user_ids': ids,
+              'chat_id': $('#chat_id')[0].value,
+            },
+      success: function(){
+        alert('Users successfully added!');
+      } }).done(function(res){
       var userData = JSON.parse(res);
       $('#' + userData.id + "-add-member").parent().remove();
       $('#member-list').append(memberAppendBuilder(userData));
+      });
     });
   });
-});
+  
 
-var memberAppendBuilder = function(userData){
-   return "<li>" + userData.username + "</li>";
-};
+  var memberAppendBuilder = function(userData){
+     return "<li>" + userData.username + "</li>";
+  };

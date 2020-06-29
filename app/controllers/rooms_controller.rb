@@ -18,10 +18,8 @@ class RoomsController < ApplicationController
     if @room.save
       @room_user = current_user.room_users.create(room_id: @room.id, role: 'admin')
       flash[:success] = "Room #{@room.name} was created successfully"
-      redirect_to rooms_path
       if @room_user.save
-        json_hash = {username: current_user.username, id: current_user.id}
-        JSON.generate(json_hash)
+        redirect_to rooms_path
       end
     end
   end
