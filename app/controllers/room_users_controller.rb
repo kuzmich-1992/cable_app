@@ -13,7 +13,7 @@ class RoomUsersController < ApplicationController
     user = User.find(params[:user_id])
     room_user = RoomUser.new(user_id: user.id)
     if room_user.save
-      json_hash = {username: user.username, id: user.id}
+      json_hash = {username: user.username, id: room_user.id}
       render text: JSON.generate(json_hash)
     else
       #error handling

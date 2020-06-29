@@ -1,20 +1,22 @@
 
-<h4>current users</h4>
+
+<h4>Add members to chat</h4>
+
+<h4>current members</h4>
 <ul id="member-list">
   <% @room_users.each do |member| %>
     <li><%= member.name %></li>
   <% end %>
 </ul>
 
-<h4>Add Userrs to chat</h4>
-<ul id="add-users">
+<ul id="add_user">
 <% @users.each do |user| %>
   <li>
     <%= user.username %>
     <%= check_box 'user.id', user.id %>
   </li>
 <% end %>
-</ul>
+<br>
 <input type='hidden' id='room_user.id' value="<%= params[:room_user_id] %>">
 <p><input type="submit" value="Add" id="add_user" class="btn btn-warning"></p>
-
+</ul>
