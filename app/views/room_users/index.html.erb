@@ -6,12 +6,12 @@
   <% end %>
 </ul>
 
-<h1>Add users to chat</h1>
-<%  @users.each  do |user|  %>
-  <%= user.nickname %>
- 
-  <%= check_box 'user_id', user.id %>
-  <br>
+<h4>Add Userrs to chat</h4>
+<ul id="add-users">
+<% @users.each do |user| %>
+  <li>
+    <%= user.username %>
+    <input type="checkbox" id="<%= "#{user.id}-add-member" %>"/>
+  </li>
 <% end %>
-<input type='hidden' id='chat_id' value="<%= params[:chat_id] %>">
-<p><input type="submit" value="Add" id="add_users"></p>
+</ul>

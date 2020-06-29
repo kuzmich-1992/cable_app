@@ -9,11 +9,9 @@ class RoomUsersController < ApplicationController
 
   def create
     @room = Room.find(params[:id])if params[:id]
-    redirect_with_flash unless member_of_room
-
-    user = User.find(params[:id])
-    room_user = RoomUser.new(user_id: user.id,
-                                room_id: @room.id)
+    
+    user = User.find(params[:user_id])
+    room_user = RoomUser.new(user_id: user.id)
     if room_user.save
       json_hash = {username: user.username, id: user.id}
       JSON.generate(json_hash)
