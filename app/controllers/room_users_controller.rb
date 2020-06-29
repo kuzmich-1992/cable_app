@@ -14,7 +14,7 @@ class RoomUsersController < ApplicationController
     room_user = RoomUser.new(user_id: user.id)
     if room_user.save
       json_hash = {username: user.username, id: user.id}
-      JSON.generate(json_hash)
+      render text: JSON.generate(json_hash)
     else
       #error handling
     end

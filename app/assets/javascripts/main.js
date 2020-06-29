@@ -3,9 +3,9 @@ $( document ).ready(function() {
     var userId = $(this).attr("id").split("-")[0];
     var data = {user_id: userId};
     $.ajax({
-      url: this.action,
-      data: data,
-      method: 'post'
+      url: " /room_users/room_user.id/create ",
+      data: { "user_id": userId, },
+      type: 'POST',
     }).done(function(res){
       var userData = JSON.parse(res);
       $('#' + userData.id + "-add-member").parent().remove();
