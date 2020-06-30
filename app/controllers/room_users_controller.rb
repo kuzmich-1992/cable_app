@@ -23,17 +23,17 @@ class RoomUsersController < ApplicationController
   end
 
   def destroy
-    @room = Room.find(params[:room_user_id] )if params[:room_user_id]
-    @all_room_users = RoomUser.all
-    @all_room_users.each do |user|
-      json_hash = []
+    @room = Room.find(params[:room_user_id])
+    json_hash = []
+    params[:users].values.each do |user|
       if user[:is_deleted] == 'true'
-        u = User.find(user[:user_id])
-        room_user = RoomUser.destroy(user_id: user[:user_id], room_id: @room.id)
+        u = RoomUser.find(user[:user_id])
+        room_user = RoomUser.destroy(user[:user_id])
         if room_user.id
-          json_hash << {username: u.username, id: room_user.id}
-        else
-          return render json: {error: room_user.errors}
+          respond_to do |format|
+            format.html { redirect_to rooms_url }
+            format.json { head :no_content }
+          end
         end
       end
     end
