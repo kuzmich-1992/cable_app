@@ -4,6 +4,6 @@ Rails.application.routes.draw do
   resources :room_messages
   resources :rooms
   resources :room_users do
-  	post :create
+    post :create
   end
 end

@@ -55,9 +55,18 @@
 
       <%= form.input :room_id, as: :hidden %>
     <% end %>
+    <div class="row">
+      <H1>pidarasy:</H1>
+      <ul>
+        <% @room.users.each do |user| %>
+          <li>
+            <%= user.username %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
   </div>
 </div>
-
 <div class="d-none" data-role="message-template">
   <div class="chat-message-container">
     <div class="row no-gutters">
