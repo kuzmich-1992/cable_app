@@ -26,7 +26,7 @@ class RoomsController < ApplicationController
 
   def show
     @room = Room.find(params[:id])
-    # redirect_to rooms_path unless member_of_room
+    redirect_to rooms_path unless member_of_room
     @room_message = RoomMessage.new room: @room
     @room_messages = @room.room_messages.includes(:user)
   end
