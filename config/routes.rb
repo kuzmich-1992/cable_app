@@ -6,4 +6,8 @@ Rails.application.routes.draw do
   resources :room_users do
     post :create
   end
+  resources :room_users do
+    post :destroy
+  end
+
 end

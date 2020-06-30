@@ -6,7 +6,6 @@ class RoomUsersController < ApplicationController
     @users = User.where.not(id: @room_users.pluck(:user_id))
   end
 
-
   def create
     @room = Room.find(params[:room_user_id] )if params[:room_user_id]
     json_hash = []
@@ -21,6 +20,21 @@ class RoomUsersController < ApplicationController
         end
       end
     end
-    redirect_to @room
+  end
+  
+  def destroy
+    @room = Room.find(params[:format] )if params[:format]
+    @all_room_users = RoomUser.all
+    @all_room_users.each do |user|
+      if user[:is_deleted] == 'true'
+        u = RoomUser.find(user[:user_id])
+        room_user = RoomUser.destroy(user_id: user[:user_id], room_id: @room.id)
+        if room_user.id
+          json_hash << {username: u.username, id: room_user.id}
+        else
+          return render json: {error: room_user.errors}
+        end
+      end
+    end
   end
 end

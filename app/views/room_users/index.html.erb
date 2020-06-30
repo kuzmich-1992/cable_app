@@ -21,3 +21,16 @@
 <input type='hidden' id='room_user_id' value="<%= params[:format] %>">
 <p><input type="submit" value="Add" id="add_users" class="btn btn-warning"></p>
 </ul>
+
+<ul id="remove_user">
+<% @room_users.each do |member| %>
+  <li>
+    <%= member.user.username %>
+    <%= check_box 'member.user.id', member.user.id, class: :is_deleted %>
+    <input type='hidden' class='member_user_id' value="<%= member.user.id %>">
+  </li>
+<% end %>
+<br>
+<input type='hidden' id='room_user_id' value="<%= params[:format] %>">
+<p><input type="submit" value="Delete" id="delete_users" class="btn btn-warning"></p>
+</ul>
