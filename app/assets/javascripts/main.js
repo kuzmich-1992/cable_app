@@ -3,7 +3,7 @@ $( document.getElementById("room_user_id") ).ready(function() {
    	    var users = [];
 	    $.each($('.user_id'), function(){
 	    	var is_added;
-	    	is_added = $(this).prev(".is_added")[0].checked = true;
+	    	is_added = $(this).prev(".is_added")[0].checked;
 		    users.push({user_id: $(this)[0].value, is_added: is_added});
 		});
         $.ajax({
@@ -21,9 +21,9 @@ $( document.getElementById("room_user_id") ).ready(function() {
 $( document.getElementById("room_user_id") ).ready(function() {
    $("#delete_users").on('click', function(){
    	    var users = [];
-	    $.each($('.member_user_id'), function(){
+	    $.each($('.room_user_id'), function(){
 	    	var is_deleted;
-	    	is_deleted = $(this).prev(".is_deleted")[0].checked = true;
+	    	is_deleted = $(this).prev(".is_deleted")[0].checked;
 		    users.push({user_id: $(this)[0].value, is_deleted: is_deleted});
 		});
         $.ajax({
@@ -37,6 +37,8 @@ $( document.getElementById("room_user_id") ).ready(function() {
 	});
     
 });
+
+
 
 
 var memberAppendBuilder = function(userData){
