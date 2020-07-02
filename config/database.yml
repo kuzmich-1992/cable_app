@@ -16,7 +16,8 @@ production:
   pool: 15
   url:  <%= ENV["DATABASE_URL"] %>
   database: cable_chat_app
- 
+  password: 1234567890
+  username: kuzmich
 
 test:
   <<: *default
