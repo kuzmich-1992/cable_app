@@ -10,7 +10,7 @@ class RoomsController < ApplicationController
   end
 
   def new
-    @room = Room.new(permitted_parameters)
+    @room = Room.new
   end
 
   def create
