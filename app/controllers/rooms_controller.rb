@@ -2,13 +2,14 @@ class RoomsController < ApplicationController
   # Loads:
   # @rooms = all rooms
   # @room = current room when applicabl
+  before_action :load_entities
 
   def index
     @rooms = Room.all
   end
 
   def new
-    @room = Room.new
+    @room = Room.new(params[:name])
   end
 
   def create
@@ -24,9 +25,6 @@ class RoomsController < ApplicationController
 
   def show
     @room = Room.find(params[:id]) 
-    # unless RoomPolicy.new(current_user, @room).show?
-    #   raise Pundit::NotAuthorizedError, "not allowed to show? this #{@room.inspect}"
-    # end
     @room_message = RoomMessage.new room: @room
     @room_messages = @room.room_messages.includes(:user)
   end
@@ -45,9 +43,6 @@ class RoomsController < ApplicationController
 
   def destroy
     @room = Room.find(params[:id])
-    unless RoomPolicy.new(current_user, @room).destroy?
-      raise Pundit::NotAuthorizedError, "not allowed to destroy? this #{@room.inspect}"
-    end
     @room.room_users.all.delete_all
     @room.destroy 
     redirect_to rooms_path
