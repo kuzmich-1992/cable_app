@@ -24,7 +24,8 @@ class RoomsController < ApplicationController
   end
 
   def show
-    @room = Room.find(params[:id]) 
+    @room = Room.find(params[:id])
+    # authorize @room 
     @room_message = RoomMessage.new room: @room
     @room_messages = @room.room_messages.includes(:user)
   end
@@ -43,6 +44,7 @@ class RoomsController < ApplicationController
 
   def destroy
     @room = Room.find(params[:id])
+    # authorize @room
     @room.room_users.all.delete_all
     @room.destroy 
     redirect_to rooms_path
