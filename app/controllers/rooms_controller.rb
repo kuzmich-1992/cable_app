@@ -3,16 +3,12 @@ class RoomsController < ApplicationController
   # @rooms = all rooms
   # @room = current room when applicabl
 
-  before_action :load_entities
-  helper_method :member_of_room
-  helper_method :admin_of_room
-
   def index
     @rooms = Room.all
   end
 
   def new
-    @room = Room.new(params[:name])
+    @room = Room.new
   end
 
   def create
@@ -27,14 +23,12 @@ class RoomsController < ApplicationController
   end
 
   def show
-    if member_of_room
     @room = Room.find(params[:id]) 
-    unless RoomPolicy.new(current_user, @room).show?
-      raise Pundit::NotAuthorizedError, "not allowed to update? this #{@room.inspect}"
-    end
+    # unless RoomPolicy.new(current_user, @room).show?
+    #   raise Pundit::NotAuthorizedError, "not allowed to show? this #{@room.inspect}"
+    # end
     @room_message = RoomMessage.new room: @room
     @room_messages = @room.room_messages.includes(:user)
-    end
   end
 
   def edit
@@ -50,16 +44,13 @@ class RoomsController < ApplicationController
   end
 
   def destroy
-    if admin_of_room
     @room = Room.find(params[:id])
-    # unless RoomPolicy.new(current_user, @room).destroy?
-    #   binding.pry
-    #   raise Pundit::NotAuthorizedError, "not allowed to update? this #{@room.inspect}"
-    # end
+    unless RoomPolicy.new(current_user, @room).destroy?
+      raise Pundit::NotAuthorizedError, "not allowed to destroy? this #{@room.inspect}"
+    end
     @room.room_users.all.delete_all
     @room.destroy 
     redirect_to rooms_path
-    end
   end
 
   protected

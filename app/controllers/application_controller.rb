@@ -21,13 +21,13 @@ class ApplicationController < ActionController::Base
 
   protected
 
-  def member_of_room
-    !!@room.room_users.find_by(room_id: room.id)&.role == 'user' or !!@room.room_users.find_by(room_id: room.id)&.role == 'admin'
-  end
+  # def member_of_room
+  #   !!@room.room_users.find_by(room_id: room.id)&.role == 'user' or !!@room.room_users.find_by(room_id: room.id)&.role == 'admin'
+  # end
 
-  def admin_of_room
-    !!@room.room_users.find_by(room_id: room.id)&.role == 'admin'
-  end
+  # def admin_of_room
+  #   !!@room.room_users.find_by(room_id: room.id)&.role == 'admin'
+  # end
 
   def user_not_authorized
     flash[:alert] = "Accesss denied"
