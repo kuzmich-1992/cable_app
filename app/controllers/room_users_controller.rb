@@ -12,7 +12,7 @@ class RoomUsersController < ApplicationController
     params[:users].values.each do |user|
       if user[:is_added] == 'true'
         u = User.find(user[:user_id])
-        room_user = RoomUser.create(user_id: user[:user_id], room_id: @room.id)
+        room_user = RoomUser.create(user_id: user[:user_id], room_id: @room.id, role: 'user')
         if room_user.id
           json_hash << {username: u.username, id: room_user.id}
         else

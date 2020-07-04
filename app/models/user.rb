@@ -1,9 +1,6 @@
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthab
-  enum role: [:user, :creator]
-  
-  after_initialize :set_default_role, :if => :new_record? 
 
   has_many :room_users
 
@@ -28,8 +25,4 @@ class User < ApplicationRecord
   end
 
   private
-
-  def set_default_role
-    self.role ||= :user
-  end
 end

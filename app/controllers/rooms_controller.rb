@@ -1,9 +1,11 @@
 class RoomsController < ApplicationController
   # Loads:
   # @rooms = all rooms
-  # @room = current room when applicable
+  # @room = current room when applicabl
+
   before_action :load_entities
-  before_action :correct_user,   only: :destroy
+  helper_method :member_of_room
+  helper_method :admin_of_room
 
   def index
     @rooms = Room.all
@@ -25,10 +27,14 @@ class RoomsController < ApplicationController
   end
 
   def show
-    @room = Room.find(params[:id])
-    redirect_to rooms_path unless member_of_room
+    if member_of_room
+    @room = Room.find(params[:id]) 
+    unless RoomPolicy.new(current_user, @room).show?
+      raise Pundit::NotAuthorizedError, "not allowed to update? this #{@room.inspect}"
+    end
     @room_message = RoomMessage.new room: @room
     @room_messages = @room.room_messages.includes(:user)
+    end
   end
 
   def edit
@@ -44,10 +50,16 @@ class RoomsController < ApplicationController
   end
 
   def destroy
+    if admin_of_room
     @room = Room.find(params[:id])
+    # unless RoomPolicy.new(current_user, @room).destroy?
+    #   binding.pry
+    #   raise Pundit::NotAuthorizedError, "not allowed to update? this #{@room.inspect}"
+    # end
     @room.room_users.all.delete_all
-    @room.destroy
+    @room.destroy 
     redirect_to rooms_path
+    end
   end
 
   protected
@@ -59,10 +71,5 @@ class RoomsController < ApplicationController
 
   def permitted_parameters
     params.require(:room).permit(:name,:user_id)
-  end
-
-  def correct_user
-    @room = current_user.rooms.find_by(id: params[:id])
-    redirect_to rooms_path if @room.nil?
   end
 end
