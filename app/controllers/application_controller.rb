@@ -1,15 +1,9 @@
 class ApplicationController < ActionController::Base
-  # include Pundit
+  include Pundit
   
   before_action :authenticate_user!
 
   before_action :configure_permitted_parameters, if: :devise_controller?
-
-  helper_method :current_user
-
-  helper_method :member_of_room
-
-  helper_method :admin_of_room
 
   def after_sign_in_path_for(_resource)
     rooms_path
@@ -20,14 +14,6 @@ class ApplicationController < ActionController::Base
   end
 
   protected
-
-  # def member_of_room
-  #   !!@room.room_users.find_by(room_id: room.id)&.role == 'user' or !!@room.room_users.find_by(room_id: room.id)&.role == 'admin'
-  # end
-
-  # def admin_of_room
-  #   !!@room.room_users.find_by(room_id: room.id)&.role == 'admin'
-  # end
 
   def user_not_authorized
     flash[:alert] = "Accesss denied"

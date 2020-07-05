@@ -14,6 +14,7 @@ class RoomsController < ApplicationController
 
   def create
     @room = current_user.rooms.build(permitted_parameters)
+    @room.user_id = current_user.id
     if @room.save
       @room_user = current_user.room_users.create(room_id: @room.id, role: 'admin')
       flash[:success] = "Room #{@room.name} was created successfully"
@@ -24,8 +25,11 @@ class RoomsController < ApplicationController
   end
 
   def show
+    # binding.pry
     @room = Room.find(params[:id])
-    # authorize @room 
+      unless RoomPolicy.new(current_user, @room).update?
+        raise Pundit::NotAuthorizedError, "not allowed to show? this #{@room.inspect}"
+    end
     @room_message = RoomMessage.new room: @room
     @room_messages = @room.room_messages.includes(:user)
   end
@@ -44,7 +48,7 @@ class RoomsController < ApplicationController
 
   def destroy
     @room = Room.find(params[:id])
-    # authorize @room
+    authorize @room
     @room.room_users.all.delete_all
     @room.destroy 
     redirect_to rooms_path
@@ -58,6 +62,6 @@ class RoomsController < ApplicationController
   end
 
   def permitted_parameters
-    params.require(:room).permit(:name,:user_id)
+    params.require(:room).permit(:name)
   end
 end

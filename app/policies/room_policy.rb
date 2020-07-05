@@ -1,17 +1,23 @@
 class RoomPolicy < ApplicationPolicy
-  
   attr_reader :user, :room
 
-  def initialize(room,user)
+  def initialize(room,current_user)
     @room = room
-    @user = user
+    @current_user = current_user
   end
 
-  # def show?
-  #   user.room_users.find_by(room_id: room.id)&.role == 'user' or user.room_users.find_by(room_id: room.id)&.role == 'admin'
-  # end
+  def show?
+    # binding.pry
+    record.current_user.room_users.find_by(room_id: room.id)&.role == "admin" || record.current_user.room_users.find_by(room_id: room.id)&.role == "user"
+  end
 
-  # def destroy?
-  #   user.room_users.find_by(room_id: room.id)&.role == 'admin'
-  # end
+  def destroy?
+    @current_user.room_users.find_by(room_id: room.id)&.role == 'admin'
+  end
+  
+  class Scope < Scope
+    def resolve
+      scope.all
+    end
+  end
 end
