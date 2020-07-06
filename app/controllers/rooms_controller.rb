@@ -17,6 +17,8 @@ class RoomsController < ApplicationController
     @room.user_id = current_user.id
     if @room.save
       @room_user = current_user.room_users.create(room_id: @room.id, role: 'admin')
+      @room_user = RoomUser.find(room_id: @room.id)
+      @room_user.add_role :admin, Room.first
       flash[:success] = "Room #{@room.name} was created successfully"
       if @room_user.save
         redirect_to rooms_path

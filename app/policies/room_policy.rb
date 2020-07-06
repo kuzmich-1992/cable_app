@@ -16,7 +16,7 @@ class RoomPolicy < ApplicationPolicy
   end
 
   def destroy
-    record.user.room_users.find_by(room_id: room.id)&.role == 'admin'
+     @user.present? && (record.user == user || user.admin?)
   end
   
   class Scope < Scope

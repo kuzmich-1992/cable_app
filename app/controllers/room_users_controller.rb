@@ -13,6 +13,8 @@ class RoomUsersController < ApplicationController
       if user[:is_added] == 'true'
         u = User.find(user[:user_id])
         room_user = RoomUser.create(user_id: user[:user_id], room_id: @room.id, role: 'user')
+        @room_user = current_user.room_users.create(room_id: @room.id, role: 'user')
+        @room_user = User.find(user_id: user.id)
         if room_user.id
           json_hash << {username: u.username, id: room_user.id}
         else
