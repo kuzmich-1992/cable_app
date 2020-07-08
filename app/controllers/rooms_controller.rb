@@ -25,9 +25,10 @@ class RoomsController < ApplicationController
   end
 
   def show
-    # binding.pry
     @room = Room.find(params[:id])
-    authorize @room
+    unless RoomPolicy.new(current_user, @room).show?
+      raise Pundit::NotAuthorizedError, "not allowed to show? this #{@room.inspect}"
+    end
     @room_message = RoomMessage.new room: @room
     @room_messages = @room.room_messages.includes(:user)
   end
