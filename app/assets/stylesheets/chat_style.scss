@@ -16,8 +16,9 @@ body { margin: 0 }
 }
 
 .room-nav-link {
-  border: 1px solid lighten($primary, 40%);
-  background: lighten($primary, 45%);
+  border: 1px solid dark($primary, 40%);
+  background-color: #7c7c7c;
+  color: $dark;
 
   & + .room-nav-link {
     border-top: 0 none;
