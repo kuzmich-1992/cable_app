@@ -47,7 +47,9 @@ class RoomsController < ApplicationController
 
   def destroy
     @room = Room.find(params[:id])
-    authorize @room
+    unless RoomPolicy.new(current_user, @room).destroy?
+      raise Pundit::NotAuthorizedError, "not allowed to destroy? this #{@room.inspect}"
+    end
     @room.room_users.all.delete_all
     @room.destroy 
     redirect_to rooms_path
