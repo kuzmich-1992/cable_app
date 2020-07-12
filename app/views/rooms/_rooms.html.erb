@@ -8,8 +8,7 @@
   <nav class="nav flex-column">
     <% @rooms.each do |room| %>
       <%= link_to room.name, room_path(room), class: 'nav-link room-nav-link' %>
-      <%= link_to "delete", room, method: :delete,
-                                       data: { confirm: "You sure?" } %>
+      <%= link_to "delete #{room.name}", room ,method: :delete, class: 'btn btn-warning'%>
     <% end %>
   </nav>
 <% else %>
@@ -19,7 +18,7 @@
 <% end %>
 
 <div class="mt-3">
-  <%= link_to new_room_path, class: 'btn btn-primary' do %>
+  <%= link_to new_room_path, class: 'btn btn-warning' do %>
     Create a room
   <% end %>
 </div>

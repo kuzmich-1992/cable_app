@@ -17,7 +17,7 @@ body { margin: 0 }
 
 .room-nav-link {
   border: 1px solid dark($primary, 40%);
-  background-color: #7c7c7c;
+  background-color: $warning;
   color: $dark;
 
   & + .room-nav-link {
@@ -56,4 +56,20 @@ body { margin: 0 }
 .chat-input {
   border-top: 0 none;
   border-radius: 0 0 5px 5px;
+}
+
+.room-members {
+
+  border: 1px solid lighten($secondary, 40%);
+  background-color:#d1b681;
+  
+
+  .room-members-container {
+
+  border: 1px solid lighten($secondary, 40%);
+  background-color:#d1b681;
+  
+ 
+ }
+ 
 }

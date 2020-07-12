@@ -1,3 +1,5 @@
+<div class="room-members">
+<div class="room-members-container">
 <h4>current members</h4>
 <ul id="member-list">
   <% @room_users.each do |member| %>
@@ -30,3 +32,5 @@
 <input type='hidden' id='room_user.id' value="<%= params[:format] %>">
 <p><input type="submit" value="Delete" id="delete_users" class="btn btn-warning"></p>
 </ul>
+</div>
+</div>
