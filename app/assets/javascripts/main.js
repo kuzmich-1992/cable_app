@@ -19,7 +19,7 @@ $( document.getElementById("room_user_id") ).ready(function() {
 });
 
 $( document.getElementById("room_user_id") ).ready(function() {
-   $("#delete_users").on('click', function(){
+   $("#delete_users").on('click', function(){  
    	    var users = [];
 	    $.each($('.room_user_id'), function(){
 	    	var is_deleted;

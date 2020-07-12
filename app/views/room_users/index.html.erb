@@ -32,5 +32,9 @@
 <input type='hidden' id='room_user.id' value="<%= params[:format] %>">
 <p><input type="submit" value="Delete" id="delete_users" class="btn btn-warning"></p>
 </ul>
+ <%= link_to room_path(@room), class: 'btn btn-secondary' do %>
+   Back to chat
+ <% end %>
+
 </div>
 </div>
