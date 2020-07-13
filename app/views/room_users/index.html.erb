@@ -1,11 +1,6 @@
 <div class="room-members">
 <div class="room-members-container">
-<h4>current members</h4>
-<ul id="member-list">
-  <% @room_users.each do |member| %>
-    <li><%= member.user.username %></li>
-  <% end %>
-</ul>
+
 <h4>select for add members</h4>
 <ul id="add_user">
 <% @users.each do |user| %>

@@ -1,8 +1,8 @@
 class RoomsController < ApplicationController
-  # Loads:
-  # @rooms = all rooms
-  # @room = current room when applicabl
+  
   before_action :load_entities
+
+  rescue_from NoMethodError, :with => :try_some_options
 
   def index
     @rooms = Room.all
@@ -25,10 +25,7 @@ class RoomsController < ApplicationController
   end
 
   def show
-    @room = Room.find(params[:id])
-    unless RoomPolicy.new(current_user, @room).show?
-      raise Pundit::NotAuthorizedError, "not allowed to show? this #{@room.inspect}"
-    end
+    @room = authorize Room.find(params[:id])
     @room_message = RoomMessage.new room: @room
     @room_messages = @room.room_messages.includes(:user)
   end
@@ -46,10 +43,7 @@ class RoomsController < ApplicationController
   end
 
   def destroy
-    @room = Room.find(params[:id])
-    unless RoomPolicy.new(current_user, @room).destroy?
-      raise Pundit::NotAuthorizedError, "not allowed to destroy? this #{@room.inspect}"
-    end
+    @room = authorize Room.find(params[:id])
     @room.room_users.all.delete_all
     @room.destroy 
     redirect_to rooms_path
@@ -64,5 +58,9 @@ class RoomsController < ApplicationController
 
   def permitted_parameters
     params.require(:room).permit(:name)
+  end
+
+  def try_some_options
+    redirect_to root_url
   end
 end
